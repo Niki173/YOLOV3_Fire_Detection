@@ -125,7 +125,8 @@ class ListDataset(Dataset):
             targets[:, 1:] = boxes
 
         # Apply augmentations
-        if self.augment:
+        #if self.augment:
+        if self.augment and targets is not None:
             if np.random.random() < 0.5:
                 img, targets = horisontal_flip(img, targets)
 
