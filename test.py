@@ -48,7 +48,8 @@ def evaluate(model, path, iou_thres, conf_thres, nms_thres, img_size, batch_size
             outputs = non_max_suppression(outputs, conf_thres=conf_thres, nms_thres=nms_thres)
 
         sample_metrics += get_batch_statistics(outputs, targets, iou_threshold=iou_thres)
-
+    if len(sample_metrics) == 0:
+        return np.array([0]), np.array([0]), np.array([0]), np.array([0]), np.array([0], dtype=np.int)
     # Concatenate sample statistics
     true_positives, pred_scores, pred_labels = [np.concatenate(x, 0) for x in list(zip(*sample_metrics))]
     precision, recall, AP, f1, ap_class = ap_per_class(true_positives, pred_scores, pred_labels, labels)
